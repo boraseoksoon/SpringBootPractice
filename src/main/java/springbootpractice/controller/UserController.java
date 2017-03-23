@@ -14,7 +14,7 @@ import java.util.ArrayList;
 @Controller
 public class UserController {
 
-    ArrayList<User> users = new ArrayList<User>();
+    private ArrayList<User> users = new ArrayList<User>();
 
 //    @GetMapping("/create")
     @PostMapping("/create")
