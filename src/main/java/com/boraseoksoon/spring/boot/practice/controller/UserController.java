@@ -1,13 +1,11 @@
-package springbootpractice.controller;
+package com.boraseoksoon.spring.boot.practice.controller;
 
-import com.boraseoksoon.spring.boot.practice.com.boraseoksoon.spring.boot.practice.domain.UserRepository;
+import com.boraseoksoon.spring.boot.practice.domain.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.boraseoksoon.spring.boot.practice.com.boraseoksoon.spring.boot.practice.domain.User;
-
-import java.util.ArrayList;
+import com.boraseoksoon.spring.boot.practice.domain.User;
 
 /**
  * Created by seoksoonjang on 2017. 3. 23..

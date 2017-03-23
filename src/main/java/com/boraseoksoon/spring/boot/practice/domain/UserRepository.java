@@ -1,4 +1,4 @@
-package com.boraseoksoon.spring.boot.practice.com.boraseoksoon.spring.boot.practice.domain;
+package com.boraseoksoon.spring.boot.practice.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
