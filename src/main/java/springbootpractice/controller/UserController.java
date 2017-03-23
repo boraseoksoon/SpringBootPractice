@@ -1,5 +1,7 @@
 package springbootpractice.controller;
 
+import com.boraseoksoon.spring.boot.practice.com.boraseoksoon.spring.boot.practice.domain.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,20 +16,20 @@ import java.util.ArrayList;
 @Controller
 public class UserController {
 
-    private ArrayList<User> users = new ArrayList<User>();
+    // Dependency Injection!
+    @Autowired
+    private UserRepository userRepository;
 
-//    @GetMapping("/create")
     @PostMapping("/create")
     public String create(User user) {
         System.out.println("User : " + user);
-        users.add(user);
+        userRepository.save(user);
         return "redirect:/list";
     }
 
-//    @PostMapping("/list")
     @GetMapping("list")
     public String showList(Model model) {
-        model.addAttribute("Users", users);
+        model.addAttribute("Users", userRepository.findAll());
         return "list";
     }
 }
