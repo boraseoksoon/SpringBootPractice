@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <title>Bootstrap Example</title>
     <meta charset="utf-8">
@@ -14,7 +14,7 @@
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">SLiPP</a>
+            <a class="navbar-brand" href="/index.html">SLiPP</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -29,8 +29,33 @@
     </div>
     <!-- /.container-fluid -->
 </nav>
-
-
+<div class="container">
+    <table class="table table-condensed">
+        <caption>사용자 목록</caption>
+        <thead>
+        <tr>
+            <th>사용자 아이디</th>
+            <th>이름</th>
+            <th>이메일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">javajigi</th>
+            <td>자바지기</td>
+            <td>javajigi@slipp.net</td>
+        </tr>
+        <tr>
+            <th scope="row">sanjigi</th>
+            <td>산지기</td>
+            <td>sanjigi@slipp.net</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/webjars/jquery/3.1.0/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
 </body>
 </html>
-
