@@ -4,11 +4,8 @@ import com.boraseoksoon.spring.boot.practice.com.boraseoksoon.spring.boot.practi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import com.boraseoksoon.spring.boot.practice.com.boraseoksoon.spring.boot.practice.domain.User;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 
@@ -43,5 +40,15 @@ public class UserController {
     public String updateForm(@PathVariable Long id, Model model) {
         model.addAttribute("Users", userRepository.findOne(id));
         return "/user/updateForm";
+    }
+
+    @PutMapping("/{id}/form")
+    public String updateForm(@PathVariable Long id, Model model, User updatedUser) {
+        User previousUser = userRepository.findOne(id);
+        User newUser = previousUser.update(updatedUser);
+        userRepository.save(newUser);
+        model.addAttribute("Users", newUser);
+
+        return "redirect:/users";
     }
 }

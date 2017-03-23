@@ -53,6 +53,15 @@ public class User {
         this.userId = userId;
     }
 
+    public User update(User updatedUser) {
+        this.name = updatedUser.name;
+        this.email = updatedUser.email;
+        this.userId = updatedUser.userId;
+        this.password = updatedUser.password;
+
+        return this;
+    }
+
     @Override
     public String toString() {
         return "user object description : [userId : " + getUserId() + " password : " +
