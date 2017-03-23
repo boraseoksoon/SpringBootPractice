@@ -1,13 +1,25 @@
-package springbootpractice.model;
+package com.boraseoksoon.spring.boot.practice.com.boraseoksoon.spring.boot.practice.domain;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  * Created by seoksoonjang on 2017. 3. 23..
  */
+
+@Entity
 public class User {
-    String userId;
-    String email;
-    String password;
-    String name;
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Column(nullable = false, length = 15)
+    private String userId;
+    private String email;
+    private String password;
+    private String name;
 
     public String getEmail() {
         return email;

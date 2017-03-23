@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import springbootpractice.model.User;
+import com.boraseoksoon.spring.boot.practice.com.boraseoksoon.spring.boot.practice.domain.User;
 
 import java.util.ArrayList;
 
