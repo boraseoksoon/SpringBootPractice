@@ -6,21 +6,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import springbootpractice.model.User;
 
+import java.util.ArrayList;
+
 /**
  * Created by seoksoonjang on 2017. 3. 23..
  */
 @Controller
 public class UserController {
+
+    ArrayList<User> users = new ArrayList<User>();
+
 //    @GetMapping("/create")
     @PostMapping("/create")
-    public String create(User user, Model model){
-        model.addAttribute("name", user.getName());
-        model.addAttribute("password", user.getPassword());
-        model.addAttribute("userId", user.getUserId());
-        model.addAttribute("email", user.getEmail());
-
+    public String create(User user) {
         System.out.println("User : " + user);
+        users.add(user);
+        return "redirect:/list";
+    }
 
-        return "index";
+//    @PostMapping("/list")
+    @GetMapping("list")
+    public String showList(Model model) {
+        model.addAttribute("Users", users);
+        return "list";
     }
 }
