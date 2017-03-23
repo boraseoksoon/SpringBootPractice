@@ -20,16 +20,17 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping("/create")
+    @PostMapping("/users")
     public String create(User user) {
         System.out.println("User : " + user);
         userRepository.save(user);
-        return "redirect:/list";
+        return "redirect:/users";
     }
 
-    @GetMapping("list")
+    // request URL, ex : localhost:8080/user/list
+    @GetMapping("/users")
     public String showList(Model model) {
         model.addAttribute("Users", userRepository.findAll());
-        return "list";
+        return "/user/list";    // template URL, ex : template/user/list.html
     }
 }
