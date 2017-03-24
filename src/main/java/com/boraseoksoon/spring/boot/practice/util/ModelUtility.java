@@ -5,4 +5,5 @@ package com.boraseoksoon.spring.boot.practice.util;
  */
 public class ModelUtility {
     public static final String USER_MODEL_IDENTIFIER= "Users";
+    public static final String QUESTION_MODEL_IDENTIFIER= "Questions";
 }

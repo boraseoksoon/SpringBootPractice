@@ -20,7 +20,7 @@ public class HttpSessionUtility {
     }
 
     public static User getUserFromSession(HttpSession session) {
-        if (!isLoginUser(session)) {
+        if (isLoginUser(session) == false) {
             throw new IllegalStateException("you can't get session while not logged in.");
         }
 
