@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.boraseoksoon.spring.boot.practice.domain.User;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Created by seoksoonjang on 2017. 3. 23..
  */
@@ -34,6 +36,9 @@ public class UserController {
         return "/user/form";
     }
 
+    @GetMapping("/loginForm")
+    public String loginForm() { return "/user/login"; }
+
     @GetMapping("/{id}/form")
     public String updateForm(@PathVariable Long id, Model model) {
         model.addAttribute("Users", userRepository.findOne(id));
@@ -48,5 +53,30 @@ public class UserController {
         model.addAttribute("Users", newUser);
 
         return "redirect:/users";
+    }
+
+    @PostMapping("/login")
+    public String login(String userId, String password, HttpSession session) {
+        User loginUser = userRepository.findOneByUserId(userId);
+
+        if (loginUser == null) {
+            System.out.println("[Error] User is null.");
+            return "redirect:/users/loginForm";
+        }
+
+        if (loginUser.getPassword().equals(password) == false) {
+            System.out.println("[Error] User password is not matched to login.");
+            return "redirect:/users/loginForm";
+        }
+
+        System.out.println(loginUser + " is login success!");
+        session.setAttribute("loginUser", loginUser);
+        return "redirect:/";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("loginUser");
+        return "redirect:/";
     }
 }
