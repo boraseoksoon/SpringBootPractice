@@ -15,11 +15,19 @@ public class User {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false, length = 15)
+    @Column(nullable = false, length = 15, unique = true)
     private String userId;
     private String email;
     private String password;
     private String name;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;

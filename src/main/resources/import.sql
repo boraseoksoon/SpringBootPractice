@@ -1,1 +1,2 @@
 INSERT INTO USER (USER_ID, PASSWORD, NAME, EMAIL) VALUES ('jss', '1234', 'jss', 'jss@boraseoksoon.net');
+INSERT INTO USER (USER_ID, PASSWORD, NAME, EMAIL) VALUES ('kbr', '1234', 'kbr', 'kbr@boraseoksoon.net');

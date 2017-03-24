@@ -40,13 +40,35 @@ public class UserController {
     public String loginForm() { return "/user/login"; }
 
     @GetMapping("/{id}/form")
-    public String updateForm(@PathVariable Long id, Model model) {
+    public String updateForm(@PathVariable Long id, Model model, HttpSession session) {
+        Object loginUserObject= session.getAttribute("loginUser");
+
+        if (loginUserObject == null) {
+            return "redirect:/users/loginForm";
+        }
+
+        User loginUser = (User)loginUserObject;
+        if (id.equals(loginUser.getId()) == false) {
+            throw new IllegalStateException("you can't change other user's information!");
+        }
+
         model.addAttribute("Users", userRepository.findOne(id));
         return "/user/updateForm";
     }
 
     @PutMapping("/{id}/form")
-    public String updateForm(@PathVariable Long id, Model model, User updatedUser) {
+    public String updateForm(@PathVariable Long id, Model model, User updatedUser, HttpSession session) {
+        Object loginUserObject= session.getAttribute("loginUser");
+
+        if (loginUserObject == null) {
+            return "redirect:/users/loginForm";
+        }
+
+        User loginUser = (User)loginUserObject;
+        if (id.equals(loginUser.getId()) == false) {
+            throw new IllegalStateException("you can't change other user's information!");
+        }
+
         User previousUser = userRepository.findOne(id);
         User newUser = previousUser.update(updatedUser);
         userRepository.save(newUser);
