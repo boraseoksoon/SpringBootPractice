@@ -62,12 +62,28 @@ public class User {
     }
 
     public User update(User updatedUser) {
-        this.name = updatedUser.name;
-        this.email = updatedUser.email;
-        this.userId = updatedUser.userId;
-        this.password = updatedUser.password;
+        this.setName(updatedUser.getName());
+        this.setEmail(updatedUser.getEmail());
+        this.setUserId(updatedUser.getUserId());
+        this.setPassword(updatedUser.getPassword());
 
         return this;
+    }
+
+    public boolean isMatchId(Long newId) {
+        if (newId == null) {
+            return false;
+        }
+
+        return newId.equals(this.getId());
+    }
+
+    public boolean isMatchPassword(String newPassword) {
+        if (newPassword == null) {
+            return false;
+        }
+
+        return newPassword.equals(this.getPassword());
     }
 
     @Override
