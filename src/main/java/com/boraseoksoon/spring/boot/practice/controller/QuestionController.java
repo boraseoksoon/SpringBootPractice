@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -58,4 +55,26 @@ public class QuestionController {
 
         return "/qna/show";
     }
+
+    @GetMapping("/{id}/form")
+    public String updateForm(@PathVariable Long id, Model model) {
+        model.addAttribute(ModelUtility.QUESTION_MODEL_IDENTIFIER, questionRepository.findOne(id));
+        return "/qna/updateForm";
+    }
+
+    @PutMapping("/{id}")
+    public String update(@PathVariable Long id, String title, String contents) {
+        Question question = questionRepository.findOne(id);
+        question.update(title, contents);
+        questionRepository.save(question);
+
+        return String.format("redirect:/questions/%d", id);
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable Long id) {
+        questionRepository.delete(id);
+        return "redirect:/";
+    }
+
 }
