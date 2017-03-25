@@ -29,6 +29,7 @@ public class UserController {
 
     @GetMapping("")
     public String showList(Model model) {
+
         model.addAttribute(ModelUtility.USER_MODEL_IDENTIFIER, userRepository.findAll());
         return "/user/list";
     }

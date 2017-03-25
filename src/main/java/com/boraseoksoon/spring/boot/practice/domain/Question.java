@@ -1,8 +1,9 @@
 package com.boraseoksoon.spring.boot.practice.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.swing.text.DateFormatter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by seoksoonjang on 2017. 3. 24..
@@ -13,9 +14,15 @@ public class Question {
     @GeneratedValue
     private Long id;
 
-    private String writer;
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_question_writer"))
+    private User writer;
+//    private String writer;
+
     private String contents;
     private String title;
+
+    private LocalDateTime createDate;
 
     public Long getId() {
         return id;
@@ -25,11 +32,11 @@ public class Question {
         this.id = id;
     }
 
-    public String getWriter() {
+    public User getWriter() {
         return writer;
     }
 
-    public void setWriter(String writer) {
+    public void setWriter(User writer) {
         this.writer = writer;
     }
 
@@ -51,11 +58,20 @@ public class Question {
 
     public Question() {}
 
-    public Question(String writer, String contents, String title) {
+    public Question(User writer, String contents, String title) {
         super();
 
         this.writer = writer;
         this.contents = contents;
         this.title = title;
+        this.createDate = LocalDateTime.now();
+    }
+
+    public String getFormattedCreatedDate() {
+        if (createDate == null) {
+            throw new IllegalStateException("question createDate is NULL!");
+        }
+
+        return createDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss"));
     }
 }
