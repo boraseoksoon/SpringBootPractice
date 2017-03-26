@@ -57,14 +57,35 @@ public class QuestionController {
     }
 
     @GetMapping("/{id}/form")
-    public String updateForm(@PathVariable Long id, Model model) {
+    public String updateForm(@PathVariable Long id, Model model, HttpSession session) {
+        if (!HttpSessionUtility.isLoginUser(session)) {
+            return "/users/loginForm";
+        }
+
+        User sessionedUser = HttpSessionUtility.getUserFromSession(session);
+        Question question = questionRepository.findOne(id);
+
+        if (!question.isSameWriter(sessionedUser)) {
+            return "/users/loginForm";
+        }
+
         model.addAttribute(ModelUtility.QUESTION_MODEL_IDENTIFIER, questionRepository.findOne(id));
         return "/qna/updateForm";
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable Long id, String title, String contents) {
+    public String update(@PathVariable Long id, String title, String contents, HttpSession session) {
+        if (!HttpSessionUtility.isLoginUser(session)) {
+            return "/users/loginForm";
+        }
+
+        User sessionedUser = HttpSessionUtility.getUserFromSession(session);
         Question question = questionRepository.findOne(id);
+
+        if (!question.isSameWriter(sessionedUser)) {
+            return "/users/loginForm";
+        }
+
         question.update(title, contents);
         questionRepository.save(question);
 
@@ -72,9 +93,19 @@ public class QuestionController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable Long id, HttpSession session) {
+        if (!HttpSessionUtility.isLoginUser(session)) {
+            return "/users/loginForm";
+        }
+
+        User sessionedUser = HttpSessionUtility.getUserFromSession(session);
+        Question question = questionRepository.findOne(id);
+
+        if (!question.isSameWriter(sessionedUser)) {
+            return "/users/loginForm";
+        }
+
         questionRepository.delete(id);
         return "redirect:/";
     }
-
 }

@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.swing.text.DateFormatter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 /**
  * Created by seoksoonjang on 2017. 3. 24..
@@ -18,6 +19,10 @@ public class Question {
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_question_writer"))
     private User writer;
 //    private String writer;
+
+    @OneToMany
+    @OrderBy("id ASC")
+    private List<Answer> answers;
 
     private String contents;
     private String title;
@@ -78,5 +83,24 @@ public class Question {
     public void update(String title, String contents) {
         this.title = title;
         this.contents = contents;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Question question = (Question) o;
+
+        return id.equals(question.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    public boolean isSameWriter(User loginUser) {
+        return this.writer.equals(loginUser);
     }
 }
