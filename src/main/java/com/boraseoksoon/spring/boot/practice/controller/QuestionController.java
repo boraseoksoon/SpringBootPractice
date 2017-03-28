@@ -50,6 +50,7 @@ public class QuestionController {
 
     @GetMapping("/{id}")
     public String showDetailQuestion(@PathVariable Long id, Model model) {
+        System.out.println("id : " + id);
         Question detailQuestion= questionRepository.findOne(id);
         model.addAttribute(ModelUtility.QUESTION_MODEL_IDENTIFIER, detailQuestion);
 

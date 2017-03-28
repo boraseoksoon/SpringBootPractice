@@ -20,7 +20,7 @@ public class Question {
     private User writer;
 //    private String writer;
 
-    @OneToMany
+    @OneToMany(mappedBy = "question")
     @OrderBy("id ASC")
     private List<Answer> answers;
 
@@ -61,6 +61,10 @@ public class Question {
         this.title = title;
     }
 
+    public boolean isSameWriter(User loginUser) {
+        return this.writer.equals(loginUser);
+    }
+
     public Question() {}
 
     public Question(User writer, String contents, String title) {
@@ -98,9 +102,5 @@ public class Question {
     @Override
     public int hashCode() {
         return id.hashCode();
-    }
-
-    public boolean isSameWriter(User loginUser) {
-        return this.writer.equals(loginUser);
     }
 }
