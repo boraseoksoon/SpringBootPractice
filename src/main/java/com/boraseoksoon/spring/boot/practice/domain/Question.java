@@ -1,5 +1,7 @@
 package com.boraseoksoon.spring.boot.practice.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import javax.swing.text.DateFormatter;
 import java.time.LocalDateTime;
@@ -17,14 +19,20 @@ public class Question {
 
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_question_writer"))
+    @JsonProperty
     private User writer;
 //    private String writer;
 
     @OneToMany(mappedBy = "question")
-    @OrderBy("id ASC")
+    // @OrderBy("id ASC")
+    @OrderBy("id DESC")
     private List<Answer> answers;
 
+    @Lob
+    @JsonProperty
     private String contents;
+
+    @JsonProperty
     private String title;
 
     private LocalDateTime createDate;

@@ -1,5 +1,8 @@
 package com.boraseoksoon.spring.boot.practice.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,9 +19,13 @@ public class User {
     private Long id;
 
     @Column(nullable = false, length = 15, unique = true)
+    @JsonProperty
     private String userId;
+    @JsonProperty
     private String email;
+    @JsonIgnore
     private String password;
+    @JsonProperty
     private String name;
 
     public Long getId() {
