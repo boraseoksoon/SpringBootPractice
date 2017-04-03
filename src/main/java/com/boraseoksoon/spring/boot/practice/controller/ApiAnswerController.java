@@ -11,17 +11,18 @@ import javax.servlet.http.HttpSession;
  * Created by seoksoonjang on 2017. 4. 3..
  */
 
-
 @RestController
-@RequestMapping("/api/questions/{questionId}/answers")
+@RequestMapping("/api/questions/{questionId}/answer")
 public class ApiAnswerController {
     @Autowired
     private QuestionRepository questionRepository;
+
     @Autowired
     private AnswerRepository answerRepository;
 
     @PostMapping("")
     public Answer create(@PathVariable Long questionId, String contents, HttpSession session) {
+        System.out.println("answer created!");
         if (!HttpSessionUtility.isLoginUser(session)) {
             return null;
         }
@@ -30,22 +31,30 @@ public class ApiAnswerController {
         Question question = questionRepository.findOne(questionId);
         Answer answer = new Answer(loginUser, question, contents);
 
+        question.addAnswer();
+        questionRepository.save(question);
+
         return answerRepository.save(answer);
     }
 
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Long questionId, @PathVariable Long id, HttpSession session) {
         if (!HttpSessionUtility.isLoginUser(session)) {
-            return Result.fail("you should login first!");
+            return Result.fail("you should log-in first");
         }
 
         Answer answer = answerRepository.findOne(id);
         User loginUser = HttpSessionUtility.getUserFromSession(session);
         if (!answer.isSameWriter(loginUser)) {
-            return Result.fail("you can't remove article other user wrote.");
+            return Result.fail("you can delete articles that you wrote by yourself.");
         }
 
         answerRepository.delete(id);
+
+        Question question = questionRepository.findOne(questionId);
+        question.deleteAnswer();
+        questionRepository.save(question);
+
         return Result.ok();
     }
 }
