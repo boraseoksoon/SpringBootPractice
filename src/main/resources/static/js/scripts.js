@@ -1,5 +1,30 @@
 /* catch delete click event */
+$("a.link-delete-article").click(function(e) {
+    e.preventDefault();
 
+    var deleteBtn = $(this);
+    var url = deleteBtn.attr("href");
+    console.log("url : " + url);
+
+    $.ajax({
+        type : 'delete',
+        url : url,
+        dataType : 'json',
+        error : function (xhr, status) {
+            console.log("error");
+        },
+        success : function (data, status) {
+            console.log(data);
+            if (data.valid) {
+                deleteBtn.closest("article").remove();
+            } else {
+                alert(data.errorMessage);
+            }
+        }
+    });
+});
+
+/*
 $("a.link-delete-article").click(deleteAnswer);
 
 function deleteAnswer(e) {
@@ -29,7 +54,7 @@ function deleteAnswer(e) {
         }
     });
 }
-
+*/
 
 $(".answer-write input[type=submit]").click(addAnswer);
 
