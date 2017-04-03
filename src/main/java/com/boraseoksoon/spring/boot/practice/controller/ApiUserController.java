@@ -1,3 +1,5 @@
+package com.boraseoksoon.spring.boot.practice.controller;
+
 import com.boraseoksoon.spring.boot.practice.domain.User;
 import com.boraseoksoon.spring.boot.practice.domain.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
