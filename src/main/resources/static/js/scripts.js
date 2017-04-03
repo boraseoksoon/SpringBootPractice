@@ -1,3 +1,36 @@
+/* catch delete click event */
+
+$("a.link-delete-article").click(deleteAnswer);
+
+function deleteAnswer(e) {
+    // this below was not working
+    // because of simply cookie
+    // though source was perfectly same.
+    e.preventDefault();
+
+    var deleteBtn = $(this);
+    var url = deleteBtn.attr("href");
+    console.log("url : " + url);
+
+    $.ajax({
+        type : 'delete',
+        url : url,
+        dataType : 'json',
+        error : function (xhr, status) {
+            console.log("error");
+        },
+        success : function (data, status) {
+            console.log(data);
+            if (data.valid) {
+                deleteBtn.closest("article").remove();
+            } else {
+                alert(data.errorMessage);
+            }
+        }
+    });
+}
+
+
 $(".answer-write input[type=submit]").click(addAnswer);
 
 function addAnswer(e) {

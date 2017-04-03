@@ -2,6 +2,7 @@ package com.boraseoksoon.spring.boot.practice.controller;
 
 import com.boraseoksoon.spring.boot.practice.domain.Question;
 import com.boraseoksoon.spring.boot.practice.domain.QuestionRepository;
+import com.boraseoksoon.spring.boot.practice.domain.Result;
 import com.boraseoksoon.spring.boot.practice.domain.User;
 import com.boraseoksoon.spring.boot.practice.util.HttpSessionUtility;
 import com.boraseoksoon.spring.boot.practice.util.ModelUtility;
@@ -59,6 +60,20 @@ public class QuestionController {
 
     @GetMapping("/{id}/form")
     public String updateForm(@PathVariable Long id, Model model, HttpSession session) {
+        Question question = questionRepository.findOne(id);
+        System.out.println("id: " + id);
+        System.out.println("question : " + question);
+
+        Result result = valid(session, question);
+        if (!result.isValid()) {
+            model.addAttribute(ModelUtility.ERROR_MODEL_IDENTIFIER, result.getErrorMessage());
+            return "/user/login";
+        }
+
+        model.addAttribute(ModelUtility.QUESTION_MODEL_IDENTIFIER, question);
+        return "/qna/updateForm";
+
+        /*
         if (!HttpSessionUtility.isLoginUser(session)) {
             return "/users/loginForm";
         }
@@ -72,10 +87,24 @@ public class QuestionController {
 
         model.addAttribute(ModelUtility.QUESTION_MODEL_IDENTIFIER, questionRepository.findOne(id));
         return "/qna/updateForm";
+        */
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable Long id, String title, String contents, HttpSession session) {
+    public String update(@PathVariable Long id, String title, String contents, HttpSession session, Model model) {
+        Question question = questionRepository.findOne(id);
+        Result result = valid(session, question);
+
+        if (!result.isValid()) {
+            model.addAttribute(ModelUtility.ERROR_MODEL_IDENTIFIER, result.getErrorMessage());
+            return "/user/login";
+        }
+
+        question.update(title, contents);
+        questionRepository.save(question);
+        return String.format("redirect:/questions/%d", id);
+
+        /*
         if (!HttpSessionUtility.isLoginUser(session)) {
             return "/users/loginForm";
         }
@@ -91,10 +120,22 @@ public class QuestionController {
         questionRepository.save(question);
 
         return String.format("redirect:/questions/%d", id);
+        */
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id, HttpSession session) {
+    public String delete(@PathVariable Long id, HttpSession session, Model model) {
+        Question question = questionRepository.findOne(id);
+        Result result = valid(session, question);
+        if (!result.isValid()) {
+            model.addAttribute(ModelUtility.ERROR_MODEL_IDENTIFIER, result.getErrorMessage());
+            return "/user/login";
+        }
+
+        questionRepository.delete(id);
+        return "redirect:/";
+
+        /*
         if (!HttpSessionUtility.isLoginUser(session)) {
             return "/users/loginForm";
         }
@@ -108,5 +149,19 @@ public class QuestionController {
 
         questionRepository.delete(id);
         return "redirect:/";
+        */
+    }
+
+    private Result valid(HttpSession session, Question question) {
+        if (!HttpSessionUtility.isLoginUser(session)) {
+            return Result.fail("로그인이 필요합니다.");
+        }
+
+        User loginUser = HttpSessionUtility.getUserFromSession(session);
+        if (!question.isSameWriter(loginUser)) {
+            return Result.fail("자신이 쓴 글만 수정, 삭제가 가능합니다.");
+        }
+
+        return Result.ok();
     }
 }

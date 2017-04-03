@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 public class Answer {
     @Id
     @GeneratedValue
+    @JsonProperty
     private Long id;
 
     @ManyToOne
@@ -46,6 +47,10 @@ public class Answer {
         this.question = question;
         this.contents = contents;
         this.createDate = LocalDateTime.now();
+    }
+
+    public boolean isSameWriter(User loginUser) {
+        return loginUser.equals(this.writer);
     }
 
     @Override
