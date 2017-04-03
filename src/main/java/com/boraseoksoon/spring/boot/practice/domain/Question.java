@@ -36,6 +36,9 @@ public class Question {
     @JsonProperty
     private String title;
 
+    @JsonProperty
+    private Integer countOfAnswer = 0;
+
     private LocalDateTime createDate;
 
     public Long getId() {
@@ -70,8 +73,24 @@ public class Question {
         this.title = title;
     }
 
+    public Integer getCountOfAnswer() {
+        return countOfAnswer;
+    }
+
+    public void setCountOfAnswer(Integer countOfAnswer) {
+        this.countOfAnswer = countOfAnswer;
+    }
+
     public boolean isSameWriter(User loginUser) {
         return this.writer.equals(loginUser);
+    }
+
+    public void addAnswer() {
+        this.countOfAnswer += 1;
+    }
+
+    public void deleteAnswer() {
+        this.countOfAnswer -= 1;
     }
 
     public Question() {}
@@ -131,6 +150,7 @@ public class Question {
                 ", answers=" + answers +
                 ", contents='" + contents + '\'' +
                 ", title='" + title + '\'' +
+                ", countOfAnswer=" + countOfAnswer +
                 ", createDate=" + createDate +
                 '}';
     }
